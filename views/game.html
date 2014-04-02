@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js'></script>
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <h1>hi</h1>
+
+</body>
+<script src="https://cdn.firebase.com/v0/firebase.js"></script>
+<script>
+    var roomName = document.URL.split("/")[document.URL.split("/").length - 1];
+    console.log('room name: ' + roomName);
+
+    var userName = "bob";//prompt("Please enter your name");
+
+    //check see the size of the room
+    var playerCount = 0;
+
+    var playerRef = new Firebase('https://findthem.firebaseio.com/game/' + roomName + '/players');
+
+    var con = playerRef.push(userName);
+    con.onDisconnect().remove();
+
+    playerRef.on('child_added', function(snap){
+        playerCount += 1;
+    });
+    playerRef.on('child_removed', function(snap){
+        playerCount -= 1;
+    });
+</script>
+</html>
